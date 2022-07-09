@@ -44,7 +44,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         menu.autoenablesItems = false
 
         // 2
-        let session = NSMenuItem(title: "Impact: 0.0 \(unit)", action: #selector(noop), keyEquivalent: "")
+        let session = NSMenuItem(title: "Session: 0.0 \(unit)", action: #selector(noop), keyEquivalent: "")
         session.isEnabled = false
         menu.addItem(session)
         
@@ -78,7 +78,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     }
     
     func updateCurrentImpact(session: Float, overall: Float) {
-        statusItem.menu?.items[0].title = "Impact: \(String(format:"%.2f", session)) \(unit)"
+        statusItem.menu?.items[0].title = "Session: \(String(format:"%.2f", session)) \(unit)"
         statusItem.menu?.items[1].title = "Lifetime: \(String(format:"%.2f", overall)) \(unit)"
     }
 

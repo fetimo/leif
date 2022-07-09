@@ -38,7 +38,11 @@ struct ContentView: View {
                 await vm.populateImpact()
             }
         } else {
-            vm.removePreviousWatts()
+            let payload = vm.removePreviousWatts()
+            appDelegate.updateCurrentImpact(
+                session: payload.total_session,
+                overall: payload.total_overall
+            )
         }
         battery.close()
     }

@@ -105,10 +105,12 @@ class LeifViewModel: ObservableObject {
         return payload
     }
     
-    func removePreviousWatts() {
+    func removePreviousWatts() -> Totals {
         var totals = createOrFetchPreviousWatts()
+        totals.total_session = 0
         totals.measurements = []
         try? storage!.save(totals, for: "watts")
+        return totals
     }
     
     func addNewMeasurement(payload: Totals, watts: Float) -> Totals {
