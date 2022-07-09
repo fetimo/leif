@@ -1,0 +1,414 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		651BF47928760703004F9FA3 /* Battery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651BF47828760703004F9FA3 /* Battery.swift */; };
+		651F5C4C287A023E0029A8F1 /* IntensityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651F5C4B287A023E0029A8F1 /* IntensityViewModel.swift */; };
+		657246522874C56500509174 /* CO2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657246512874C56500509174 /* CO2.swift */; };
+		657246552874C5FC00509174 /* IntensityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657246542874C5FC00509174 /* IntensityService.swift */; };
+		657246582874C74700509174 /* LeifViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657246572874C74700509174 /* LeifViewModel.swift */; };
+		6572465B2874C7FE00509174 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6572465A2874C7FE00509174 /* Constants.swift */; };
+		6572465D2874D50400509174 /* LeifMenuBarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6572465C2874D50400509174 /* LeifMenuBarApp.swift */; };
+		65B31D5F2874BFF600EF61B9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B31D5E2874BFF600EF61B9 /* ContentView.swift */; };
+		65B31D612874BFF800EF61B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 65B31D602874BFF800EF61B9 /* Assets.xcassets */; };
+		65B31D642874BFF800EF61B9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 65B31D632874BFF800EF61B9 /* Preview Assets.xcassets */; };
+		65C8D0FF2878EA6B00E8A81B /* Totals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C8D0FE2878EA6B00E8A81B /* Totals.swift */; };
+		65F11E8228775EBD00E5C196 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F11E8128775EBD00E5C196 /* Cache.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		651BF47828760703004F9FA3 /* Battery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battery.swift; sourceTree = "<group>"; };
+		651F5C4B287A023E0029A8F1 /* IntensityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntensityViewModel.swift; sourceTree = "<group>"; };
+		657246512874C56500509174 /* CO2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CO2.swift; sourceTree = "<group>"; };
+		657246542874C5FC00509174 /* IntensityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntensityService.swift; sourceTree = "<group>"; };
+		657246572874C74700509174 /* LeifViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeifViewModel.swift; sourceTree = "<group>"; };
+		6572465A2874C7FE00509174 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		6572465C2874D50400509174 /* LeifMenuBarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeifMenuBarApp.swift; sourceTree = "<group>"; };
+		65B31D592874BFF600EF61B9 /* leif.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = leif.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		65B31D5E2874BFF600EF61B9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		65B31D602874BFF800EF61B9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		65B31D632874BFF800EF61B9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		65B31D652874BFF800EF61B9 /* leif.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = leif.entitlements; sourceTree = "<group>"; };
+		65B31D6B2874C10700EF61B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		65C8D0FE2878EA6B00E8A81B /* Totals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Totals.swift; sourceTree = "<group>"; };
+		65F11E8128775EBD00E5C196 /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		65B31D562874BFF600EF61B9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		657246502874C54C00509174 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				657246512874C56500509174 /* CO2.swift */,
+				65C8D0FE2878EA6B00E8A81B /* Totals.swift */,
+				651F5C4B287A023E0029A8F1 /* IntensityViewModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		657246532874C5D900509174 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				657246542874C5FC00509174 /* IntensityService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		657246562874C72A00509174 /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				657246572874C74700509174 /* LeifViewModel.swift */,
+			);
+			path = "View Models";
+			sourceTree = "<group>";
+		};
+		657246592874C7BB00509174 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				6572465A2874C7FE00509174 /* Constants.swift */,
+				651BF47828760703004F9FA3 /* Battery.swift */,
+				65F11E8128775EBD00E5C196 /* Cache.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		65B31D502874BFF600EF61B9 = {
+			isa = PBXGroup;
+			children = (
+				65B31D5B2874BFF600EF61B9 /* leif */,
+				65B31D5A2874BFF600EF61B9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		65B31D5A2874BFF600EF61B9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				65B31D592874BFF600EF61B9 /* leif.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		65B31D5B2874BFF600EF61B9 /* leif */ = {
+			isa = PBXGroup;
+			children = (
+				657246592874C7BB00509174 /* Utils */,
+				657246562874C72A00509174 /* View Models */,
+				657246532874C5D900509174 /* Services */,
+				657246502874C54C00509174 /* Models */,
+				65B31D6B2874C10700EF61B9 /* Info.plist */,
+				65B31D5E2874BFF600EF61B9 /* ContentView.swift */,
+				65B31D602874BFF800EF61B9 /* Assets.xcassets */,
+				65B31D652874BFF800EF61B9 /* leif.entitlements */,
+				65B31D622874BFF800EF61B9 /* Preview Content */,
+				6572465C2874D50400509174 /* LeifMenuBarApp.swift */,
+			);
+			path = leif;
+			sourceTree = "<group>";
+		};
+		65B31D622874BFF800EF61B9 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				65B31D632874BFF800EF61B9 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		65B31D582874BFF600EF61B9 /* leif */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 65B31D682874BFF800EF61B9 /* Build configuration list for PBXNativeTarget "leif" */;
+			buildPhases = (
+				65B31D552874BFF600EF61B9 /* Sources */,
+				65B31D562874BFF600EF61B9 /* Frameworks */,
+				65B31D572874BFF600EF61B9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = leif;
+			productName = leif;
+			productReference = 65B31D592874BFF600EF61B9 /* leif.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		65B31D512874BFF600EF61B9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1340;
+				LastUpgradeCheck = 1340;
+				TargetAttributes = {
+					65B31D582874BFF600EF61B9 = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
+				};
+			};
+			buildConfigurationList = 65B31D542874BFF600EF61B9 /* Build configuration list for PBXProject "leif" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 65B31D502874BFF600EF61B9;
+			productRefGroup = 65B31D5A2874BFF600EF61B9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				65B31D582874BFF600EF61B9 /* leif */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		65B31D572874BFF600EF61B9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				65B31D642874BFF800EF61B9 /* Preview Assets.xcassets in Resources */,
+				65B31D612874BFF800EF61B9 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		65B31D552874BFF600EF61B9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				65C8D0FF2878EA6B00E8A81B /* Totals.swift in Sources */,
+				651BF47928760703004F9FA3 /* Battery.swift in Sources */,
+				65B31D5F2874BFF600EF61B9 /* ContentView.swift in Sources */,
+				65F11E8228775EBD00E5C196 /* Cache.swift in Sources */,
+				651F5C4C287A023E0029A8F1 /* IntensityViewModel.swift in Sources */,
+				657246552874C5FC00509174 /* IntensityService.swift in Sources */,
+				657246522874C56500509174 /* CO2.swift in Sources */,
+				657246582874C74700509174 /* LeifViewModel.swift in Sources */,
+				6572465D2874D50400509174 /* LeifMenuBarApp.swift in Sources */,
+				6572465B2874C7FE00509174 /* Constants.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		65B31D662874BFF800EF61B9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "Leif dev";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		65B31D672874BFF800EF61B9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = z;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = Leif;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		65B31D692874BFF800EF61B9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = leif/leif.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"leif/Preview Content\"";
+				ENABLE_PREVIEWS = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = leif/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fetimo.leif;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		65B31D6A2874BFF800EF61B9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = leif/leif.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"leif/Preview Content\"";
+				ENABLE_PREVIEWS = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = leif/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fetimo.leif;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		65B31D542874BFF600EF61B9 /* Build configuration list for PBXProject "leif" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				65B31D662874BFF800EF61B9 /* Debug */,
+				65B31D672874BFF800EF61B9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		65B31D682874BFF800EF61B9 /* Build configuration list for PBXNativeTarget "leif" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				65B31D692874BFF800EF61B9 /* Debug */,
+				65B31D6A2874BFF800EF61B9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 65B31D512874BFF600EF61B9 /* Project object */;
+}
