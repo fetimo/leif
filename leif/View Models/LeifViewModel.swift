@@ -83,7 +83,15 @@ class LeifViewModel: ObservableObject {
     func calculateImpact() -> Float {
         do {
             let average: Float = calculateAverageWatts()
-            return (Float(try timeChargingInHours()) / Float(self.intensity.first!.data.actual)) * average
+            let x = Float(try timeChargingInHours())
+            var y = Float(0)
+            if (self.intensity.count > 0) {
+                y = Float(self.intensity.first!.data.actual)
+            }
+            if (x != 0 && y != 0) {
+                return (x / y) * average
+            }
+            return 0
         } catch {
             return 0
         }
