@@ -22,30 +22,29 @@ struct ContentView: View {
         battery.open()
         let isCharging = battery.isACPowered()
         
-        // If charging we want to start or continue to collect watt usage
+        /// If charging we want to start or continue to collect watt usage.
         if (isCharging) {
             var payload = vm.createOrFetchPreviousWatts()
             let watts = battery.getPowerDrawInWatts()
             payload = vm.addNewMeasurement(payload: payload, watts: watts)
-            try? vm.storage!.save(payload, for: "watts")
+            try? vm.storage.save(payload, for: "watts")
             
             Task {
-                // Update the menu bar
-                await appDelegate.updateCurrentImpact(
+                /// Update the menu bar
+                appDelegate.updateCurrentImpact(
                     session: payload.total_session,
                     overall: payload.total_overall,
-                    intensity: vm.getCurrentIndex()
+                    intensity: vm.intensity.data.index
                 )
-                await vm.populateImpact()
+                await vm.populateIntensity()
             }
         } else {
-            
             Task {
                 let payload = vm.removePreviousWatts()
-                await appDelegate.updateCurrentImpact(
+                appDelegate.updateCurrentImpact(
                     session: payload.total_session,
                     overall: payload.total_overall,
-                    intensity: vm.getCurrentIndex()
+                    intensity: vm.intensity.data.index
                 )
             }
         }
@@ -53,10 +52,13 @@ struct ContentView: View {
     }
     
     var body: some View {
-        ScrollView {}.task {
+        ScrollView {}.onReceive(vm.timer) { time in
             updateWatts()
-        }.onReceive(vm.timer) { time in
-            updateWatts()
-       }.frame(width: .zero)
+        }.onAppear() {
+            Task {
+                await vm.populateIntensity()
+                updateWatts()
+            }
+        }.frame(width: .zero)
     }
 }

@@ -10,17 +10,32 @@ import Foundation
 struct Intensity: Codable {
     let forecast: Int
     var actual: Int
-    var index: String? = "unknown"
+    var index: String
 }
 
-struct CO2_Data: Codable {
+struct CO2Data: Codable {
     let from: String
     let to: String
     var intensity: Intensity
 }
 
-struct CO2_Response: Codable {
-    let data: [CO2_Data]
-    var fetched_at: TimeInterval?
+struct CarbonIntensity: Codable {
+    let data: CO2Data
+    var fetched_at: TimeInterval
 }
 
+struct CO2ResponseIntensity: Codable {
+    let forecast: Int?
+    var actual: Int?
+    var index: String? = "unknown fallback"
+}
+
+struct CO2ResponseData: Codable {
+    let from: String?
+    let to: String?
+    var intensity: CO2ResponseIntensity?
+}
+
+struct CO2Response: Codable {
+    let data: [CO2ResponseData]?
+}

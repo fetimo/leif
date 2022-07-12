@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		651BF47928760703004F9FA3 /* Battery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651BF47828760703004F9FA3 /* Battery.swift */; };
-		651F5C4C287A023E0029A8F1 /* IntensityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651F5C4B287A023E0029A8F1 /* IntensityViewModel.swift */; };
+		651F5C4C287A023E0029A8F1 /* IntensityData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651F5C4B287A023E0029A8F1 /* IntensityData.swift */; };
 		657246522874C56500509174 /* CO2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657246512874C56500509174 /* CO2.swift */; };
 		657246552874C5FC00509174 /* IntensityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657246542874C5FC00509174 /* IntensityService.swift */; };
 		657246582874C74700509174 /* LeifViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657246572874C74700509174 /* LeifViewModel.swift */; };
@@ -23,7 +23,7 @@
 
 /* Begin PBXFileReference section */
 		651BF47828760703004F9FA3 /* Battery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battery.swift; sourceTree = "<group>"; };
-		651F5C4B287A023E0029A8F1 /* IntensityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntensityViewModel.swift; sourceTree = "<group>"; };
+		651F5C4B287A023E0029A8F1 /* IntensityData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntensityData.swift; sourceTree = "<group>"; };
 		657246512874C56500509174 /* CO2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CO2.swift; sourceTree = "<group>"; };
 		657246542874C5FC00509174 /* IntensityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntensityService.swift; sourceTree = "<group>"; };
 		657246572874C74700509174 /* LeifViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeifViewModel.swift; sourceTree = "<group>"; };
@@ -54,9 +54,9 @@
 		657246502874C54C00509174 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				651F5C4B287A023E0029A8F1 /* IntensityData.swift */,
 				657246512874C56500509174 /* CO2.swift */,
 				65C8D0FE2878EA6B00E8A81B /* Totals.swift */,
-				651F5C4B287A023E0029A8F1 /* IntensityViewModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -203,7 +203,7 @@
 				651BF47928760703004F9FA3 /* Battery.swift in Sources */,
 				65B31D5F2874BFF600EF61B9 /* ContentView.swift in Sources */,
 				65F11E8228775EBD00E5C196 /* Cache.swift in Sources */,
-				651F5C4C287A023E0029A8F1 /* IntensityViewModel.swift in Sources */,
+				651F5C4C287A023E0029A8F1 /* IntensityData.swift in Sources */,
 				657246552874C5FC00509174 /* IntensityService.swift in Sources */,
 				657246522874C56500509174 /* CO2.swift in Sources */,
 				657246582874C74700509174 /* LeifViewModel.swift in Sources */,

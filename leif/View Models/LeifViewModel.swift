@@ -7,14 +7,21 @@
 
 import Foundation
 
+let defaultIntensity = Intensity(forecast: 0, actual: 0, index: "unknown")
+let defaultCO2Data = CO2Data(
+    from: "",
+    to: "",
+    intensity: defaultIntensity
+)
+let defaultIVM = IntensityData(intensity: defaultCO2Data)
+
 @MainActor
 class LeifViewModel: ObservableObject {
 
-    @Published var intensity: [IntensityViewModel] = []
-    @Published var watts: Float = 0
-    // Run timer every 30 minutes.
+    @Published var intensity: IntensityData
+    /// Run timer every 2 minutes.
     @Published var timer = Timer.publish(every: 120, tolerance: 10, on: .main, in: .common).autoconnect()
-    @Published var storage: CodableStorage?
+    var storage: CodableStorage
     
     init() {
         do {
@@ -26,18 +33,16 @@ class LeifViewModel: ObservableObject {
             )
             let disk = DiskStorage(path: path)
             self.storage = CodableStorage(storage: disk)
+            
         } catch {
             print("Error setting up cache")
+            exit(1)
         }
-        
-        Task {
-            await self.populateImpact()
-        }
-        
+        self.intensity = defaultIVM
     }
     
     private func timeChargingInHours() throws -> Float {
-        let data: Totals = try storage!.fetch(for: "watts")
+        let data: Totals = try storage.fetch(for: "watts")
         let measurements = data.measurements
         if (measurements.count > 0) {
             let start = Float(measurements.first!.timestamp)
@@ -50,8 +55,8 @@ class LeifViewModel: ObservableObject {
     
     private func calculateAverageWatts() -> Float {
         do {
-            // Calculate the impact of the last charge.
-            let timelapse: Totals = try storage!.fetch(for: "watts")
+            /// Calculate the impact of the last charge.
+            let timelapse: Totals = try storage.fetch(for: "watts")
             let watt_values: [Float] = timelapse.measurements.map { $0.value }
             let sum = watt_values.reduce(0, +)
             
@@ -65,42 +70,33 @@ class LeifViewModel: ObservableObject {
         }
     }
 
-    func populateImpact() async {
+    @discardableResult
+    func populateIntensity() async -> Optional<IntensityData> {
         do {
             let impact = try await IntensityService().getIntensity(url: Constants.Urls.latestImpact)
-            // self.intensity = impact.data.map(IntensityViewModel.init)
-            self.intensity = impact.data.map {
-                var modified = $0
-                // At one point actual returned null.
-                modified.intensity.actual = modified.intensity.actual == nil ? modified.intensity.forecast : modified.intensity.actual;
-                return IntensityViewModel.init(intensity: modified)
-            }
+            self.intensity = IntensityData.init(intensity: impact.data)
         } catch {
             print("populateImpact error", error)
         }
+        return nil
     }
     
     func calculateImpact() -> Float {
-        do {
-            let average: Float = calculateAverageWatts()
-            let x = Float(try timeChargingInHours())
-            var y = Float(0)
-            if (self.intensity.count > 0) {
-                y = Float(self.intensity.first!.data.actual)
+        let average: Float = calculateAverageWatts()
+        let carbonIntensity = self.intensity.data.actual
+        
+        /// Check all of these things otherwise return 0
+        guard let hoursCharging = try? timeChargingInHours(),
+              hoursCharging != 0, carbonIntensity != 0 else {
+                return 0
             }
-            if (x != 0 && y != 0) {
-                return (x / y) * average
-            }
-            return 0
-        } catch {
-            return 0
-        }
+        return (hoursCharging / Float(carbonIntensity)) * average
     }
     
     func createOrFetchPreviousWatts() -> Totals {
         var payload: Totals;
         do {
-            payload = try storage!.fetch(for: "watts")
+            payload = try storage.fetch(for: "watts")
         } catch {
             payload = Totals(
                 total_session: 0,
@@ -108,7 +104,7 @@ class LeifViewModel: ObservableObject {
                 measurements: []
             )
             
-            try? storage!.save(payload, for: "watts")
+            try? storage.save(payload, for: "watts")
         }
         return payload
     }
@@ -117,7 +113,7 @@ class LeifViewModel: ObservableObject {
         var totals = createOrFetchPreviousWatts()
         totals.total_session = 0
         totals.measurements = []
-        try? storage!.save(totals, for: "watts")
+        try? storage.save(totals, for: "watts")
         return totals
     }
     
@@ -132,14 +128,5 @@ class LeifViewModel: ObservableObject {
         newPayload.total_overall = payload.total_overall + (newPayload.total_session - payload.total_session)
         newPayload.measurements.append(data)
         return newPayload
-    }
-    
-    func getCurrentIndex() async -> String {
-        do {
-            let impact = try await IntensityService().getIntensity(url: Constants.Urls.latestImpact)
-            return impact.data[0].intensity.index!
-        } catch {
-            return "unknown"
-        }
     }
 }

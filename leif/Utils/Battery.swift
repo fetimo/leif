@@ -189,9 +189,9 @@ public struct Battery {
                                                    kCFAllocatorDefault, 0)
         let dict = prop!.takeUnretainedValue() as! NSDictionary
 
-        let number = dict["AdapterPower"] as! UInt
-        let str = String(number, radix: 16, uppercase: false)
-        let watts = UInt32(str, radix: 16)
+        let uint = dict["AdapterPower"] as! UInt
+        let string = String(uint, radix: 16, uppercase: false)
+        let watts = UInt32(string, radix: 16)
 
         if (watts != nil) {
             return Float(bitPattern: watts!)

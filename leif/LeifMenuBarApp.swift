@@ -38,13 +38,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     }
 
     func setupMenus() {
-        // 1
         let menu = NSMenu()
         menu.autoenablesItems = false
         
-        
-
-        // 2
         let session = NSMenuItem(title: "Session: 0.0 \(unit)", action: #selector(noop), keyEquivalent: "")
         session.isEnabled = false
         menu.addItem(session)
@@ -56,25 +52,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         let intensity = NSMenuItem(title: "Current intensity: unknown", action: #selector(noop) , keyEquivalent: "")
         intensity.isEnabled = false
         menu.addItem(intensity)
-        
-        let secondMenuItem = NSMenuItem()
-        secondMenuItem.title = "Region"
-        
-        let secondSubMenuItem = NSMenuItem()
-        let secondSubMenu = NSMenu()
-        secondSubMenu.autoenablesItems = true
-        regions.forEach { (key: Int, value: String) in
-            let subMenuItem = NSMenuItem()
-            subMenuItem.title = value
-            subMenuItem.isEnabled = true
-            secondSubMenuItem.isEnabled = true
-//            secondSubMenuItem.target = self
-            secondSubMenuItem.action = #selector(didTapRegion)
-            secondSubMenu.addItem(subMenuItem)
-        }
-        
-        menu.addItem(secondMenuItem)
-        menu.setSubmenu(secondSubMenu, for: secondMenuItem)
         
         let reset = NSMenuItem(title: "Reset stats", action: #selector(didTapReset) , keyEquivalent: "r")
         menu.addItem(reset)
@@ -115,9 +92,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
 
     @objc func noop() {}
 
-    @objc func didTapRegion(sender: Any) {
-        print(sender)
-    }
+   
     
     @objc func didTapReset() {
         resetStats()

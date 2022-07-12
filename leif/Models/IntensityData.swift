@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct IntensityViewModel {
+struct IntensityData {
     
-    private var intensity: CO2_Data
+    private var intensity: CO2Data
     
-    init(intensity: CO2_Data) {
+    init(intensity: CO2Data) {
         self.intensity = intensity
     }
     
