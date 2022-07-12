@@ -44,7 +44,7 @@ class LeifViewModel: ObservableObject {
     private func timeChargingInHours() throws -> Float {
         let data: Totals = try storage.fetch(for: "watts")
         let measurements = data.measurements
-        if (measurements.count > 0) {
+        if measurements.count > 0 {
             let start = Float(measurements.first!.timestamp)
             let finish = Float(measurements.last!.timestamp)
             return (finish - start) / 60 / 60

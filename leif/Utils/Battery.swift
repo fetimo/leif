@@ -92,7 +92,7 @@ public struct Battery {
     */
     @discardableResult
     public mutating func open() -> kern_return_t {
-        if (service != 0) {
+        if service != 0 {
             #if DEBUG
                 print("WARNING - \(#file):\(#function) - " +
                         "\(Battery.IOSERVICE_BATTERY) connection already open")
@@ -105,7 +105,7 @@ public struct Battery {
         service = IOServiceGetMatchingService(kIOMainPortDefault,
                   IOServiceNameMatching(Battery.IOSERVICE_BATTERY))
         
-        if (service == 0) {
+        if service == 0 {
             #if DEBUG
                 print("ERROR - \(#file):\(#function) - " +
                         "\(Battery.IOSERVICE_BATTERY) service not found")
@@ -193,7 +193,7 @@ public struct Battery {
         let string = String(uint, radix: 16, uppercase: false)
         let watts = UInt32(string, radix: 16)
 
-        if (watts != nil) {
+        if watts != nil {
             return Float(bitPattern: watts!)
         } else {
             return 0.0

@@ -23,7 +23,7 @@ struct ContentView: View {
         let isCharging = battery.isACPowered()
         
         /// If charging we want to start or continue to collect watt usage.
-        if (isCharging) {
+        if isCharging {
             var payload = vm.createOrFetchPreviousWatts()
             let watts = battery.getPowerDrawInWatts()
             payload = vm.addNewMeasurement(payload: payload, watts: watts)
