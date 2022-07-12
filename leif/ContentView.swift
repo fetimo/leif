@@ -29,20 +29,25 @@ struct ContentView: View {
             payload = vm.addNewMeasurement(payload: payload, watts: watts)
             try? vm.storage!.save(payload, for: "watts")
             
-            // Update the menu bar
-            appDelegate.updateCurrentImpact(
-                session: payload.total_session,
-                overall: payload.total_overall
-            )
             Task {
+                // Update the menu bar
+                await appDelegate.updateCurrentImpact(
+                    session: payload.total_session,
+                    overall: payload.total_overall,
+                    intensity: vm.getCurrentIndex()
+                )
                 await vm.populateImpact()
             }
         } else {
-            let payload = vm.removePreviousWatts()
-            appDelegate.updateCurrentImpact(
-                session: payload.total_session,
-                overall: payload.total_overall
-            )
+            
+            Task {
+                let payload = vm.removePreviousWatts()
+                await appDelegate.updateCurrentImpact(
+                    session: payload.total_session,
+                    overall: payload.total_overall,
+                    intensity: vm.getCurrentIndex()
+                )
+            }
         }
         battery.close()
     }

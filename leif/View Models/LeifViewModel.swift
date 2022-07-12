@@ -133,4 +133,13 @@ class LeifViewModel: ObservableObject {
         newPayload.measurements.append(data)
         return newPayload
     }
+    
+    func getCurrentIndex() async -> String {
+        do {
+            let impact = try await IntensityService().getIntensity(url: Constants.Urls.latestImpact)
+            return impact.data[0].intensity.index!
+        } catch {
+            return "unknown"
+        }
+    }
 }

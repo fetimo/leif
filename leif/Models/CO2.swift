@@ -10,7 +10,7 @@ import Foundation
 struct Intensity: Codable {
     let forecast: Int
     var actual: Int
-    let index: String
+    var index: String? = "unknown"
 }
 
 struct CO2_Data: Codable {
