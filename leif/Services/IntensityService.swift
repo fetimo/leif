@@ -13,21 +13,21 @@ enum NetworkError: Error {
 }
 
 class IntensityService {
-    func getIntensity(url: URL) async throws -> CarbonIntensity {
-        let path = try FileManager.default.url(
-            for: .cachesDirectory,
-            in: .userDomainMask,
-            appropriateFor: nil,
-            create: false
-        )
-        let disk = DiskStorage(path: path)
-        let storage = CodableStorage(storage: disk)
+    var storage: CodableStorage
+    let cacheExpiry: Double = 1800
+    
+    init() {
+        self.storage = UserStorage().storage
+    }
+    
+    func getNationwideIntensity() async throws -> CarbonIntensity {
+        let url = Constants.Urls.carbonIntensityNationwide
         
         // Try and get from cache or make http call
         do {
-            let cached: CarbonIntensity = try storage.fetch(for: "co2_response")
+            let cached: CarbonIntensity = try storage.fetch(for: "api:national")
             let diff = Date.now.timeIntervalSince1970 - cached.fetched_at
-            guard diff < 1800 else {
+            guard diff < cacheExpiry else {
                 throw NetworkError.expired
             }
             
@@ -41,21 +41,70 @@ class IntensityService {
             }
 
             let json = try JSONDecoder().decode(CO2Response.self, from: data)
-            let item = json.data?.first
+            
+            guard let item = json.data?.first else {
+                throw NetworkError.invalidResponse
+            }
             
             let normalisedCO2Data = CO2Data(
-                from: item?.from ?? Date.now.ISO8601Format(),
-                to: item?.to ?? Date.now.ISO8601Format(),
-                intensity: Intensity(forecast: item?.intensity?.forecast ?? 0,
-                                     actual: item?.intensity?.actual ?? item?.intensity?.forecast ?? 0,
-                                     index: item?.intensity?.index ?? "unknown"
+                from: item.from ?? Date.now.ISO8601Format(),
+                to: item.to ?? Date.now.ISO8601Format(),
+                intensity: Intensity(forecast: item.intensity?.forecast ?? 0,
+                                     actual: item.intensity?.actual ?? item.intensity?.forecast ?? 0,
+                                     index: item.intensity?.index ?? "unknown"
                                     )
             )
             let normalised = CarbonIntensity(data: normalisedCO2Data, fetched_at: Date.now.timeIntervalSince1970)
-            try storage.save(normalised, for: "co2_response")
+            try storage.save(normalised, for: "api:national")
             
             return normalised
         }
+    }
     
+    func getRegionalIntensity(regionID: Int) async throws -> CarbonIntensity {
+        let withRegion = Constants.Urls.carbonIntensityRegional.absoluteString + "/\(regionID)"
+        let url = URL(string: withRegion)!
+        
+        // Try and get from cache or make http call
+        do {
+            let cached: CarbonIntensity = try storage.fetch(for: "api:region:\(regionID)")
+            let diff = Date.now.timeIntervalSince1970 - cached.fetched_at
+            guard diff < cacheExpiry else {
+                throw NetworkError.expired
+            }
+            
+            return cached
+        } catch {
+            let (data, response) = try await URLSession.shared.data(from: url)
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  httpResponse.statusCode == 200 else {
+                throw NetworkError.invalidResponse
+            }
+            
+            let json = try JSONDecoder().decode(CO2RegionalResponse.self, from: data)
+
+            guard let regionData = json.data.first else {
+                throw NetworkError.invalidResponse
+            }
+            
+            guard let item = regionData.data.first else {
+                throw NetworkError.invalidResponse
+            }
+            
+            let normalisedCO2Data = CO2Data(
+                from: item.from ?? Date.now.ISO8601Format(),
+                to: item.to ?? Date.now.ISO8601Format(),
+                intensity: Intensity(forecast: item.intensity?.forecast ?? 0,
+                                     actual: item.intensity?.actual ?? item.intensity?.forecast ?? 0,
+                                     index: item.intensity?.index ?? "unknown"
+                                    )
+            )
+            let normalised = CarbonIntensity(data: normalisedCO2Data, fetched_at: Date.now.timeIntervalSince1970)
+            try storage.save(normalised, for: "api:region:\(regionID)")
+
+            return normalised
+        }
+        
     }
 }

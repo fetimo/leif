@@ -39,3 +39,14 @@ struct CO2ResponseData: Codable {
 struct CO2Response: Codable {
     let data: [CO2ResponseData]?
 }
+
+struct CO2RegionalResponseData: Codable {
+    let regionid: Int
+    let dnoregion: String
+    let shortname: String
+    let data: [CO2ResponseData]
+}
+
+struct CO2RegionalResponse: Codable {
+    let data: [CO2RegionalResponseData]
+}

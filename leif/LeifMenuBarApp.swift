@@ -28,7 +28,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     let unit = "gCO₂eq"
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         if let button = statusItem.button {
             button.image = NSImage(systemSymbolName: "leaf.fill", accessibilityDescription: "leaf")
@@ -36,6 +35,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
 
         setupMenus()
     }
+    
+    
 
     func setupMenus() {
         let menu = NSMenu()
@@ -49,9 +50,35 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         total.isEnabled = false
         menu.addItem(total)
         
-        let intensity = NSMenuItem(title: "Current intensity: unknown", action: #selector(noop) , keyEquivalent: "")
+        let intensity = NSMenuItem(title: "Current intensity: unknown appdelegate", action: #selector(noop) , keyEquivalent: "")
         intensity.isEnabled = false
         menu.addItem(intensity)
+        
+        // Setup Regions submenu
+        let regionMenuItem = NSMenuItem()
+        regionMenuItem.title = "Region"
+        let regionSubMenu = NSMenu()
+        let defaults = UserDefaults.standard
+        let currentRegion = defaults.value(forKey: "Region") as? Int
+
+        regions.sorted { $0.1 < $1.1 }.forEach { (regionID: Int, value: String) in
+            let regionItem = NSMenuItem()
+            
+            regionItem.title = value
+            regionItem.target = self
+            regionItem.action = #selector(didTapRegion)
+            regionItem.representedObject = regionID
+            
+            // Toggle as selected
+            if currentRegion == regionID {
+                regionItem.state = .on
+            }
+            
+            regionSubMenu.addItem(regionItem)
+        }
+        
+        menu.addItem(regionMenuItem)
+        menu.setSubmenu(regionSubMenu, for: regionMenuItem)
         
         let reset = NSMenuItem(title: "Reset stats", action: #selector(didTapReset) , keyEquivalent: "r")
         menu.addItem(reset)
@@ -91,10 +118,34 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     }
 
     @objc func noop() {}
-
-   
+    
+    @objc func didTapRegion(sender: NSMenuItem) {
+        guard let regionID = sender.representedObject as AnyObject as? Int else {
+            return
+        }
+        
+        let defaults = UserDefaults.standard
+        defaults.set(regionID, forKey: "Region")
+        
+        // Relaunch Leif because I can't figure out how to trigger ContentView to update
+        let url = URL(fileURLWithPath: Bundle.main.resourcePath!)
+        let path = url.deletingLastPathComponent().deletingLastPathComponent().absoluteString
+        let task = Process()
+        task.launchPath = "/usr/bin/open"
+        task.arguments = [path]
+        task.launch()
+        exit(0)
+        
+//        setupMenus()
+//        DispatchQueue.main.async(execute: {
+//            lert mainWindow = NSApplication.shared.mainMenu
+//            mainWindow.con
+//            print(mainWindow)
+//        })
+    }
     
     @objc func didTapReset() {
         resetStats()
     }
+    
 }

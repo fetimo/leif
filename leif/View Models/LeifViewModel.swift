@@ -24,20 +24,7 @@ class LeifViewModel: ObservableObject {
     var storage: CodableStorage
     
     init() {
-        do {
-            let path = try FileManager.default.url(
-                for: .cachesDirectory,
-                in: .userDomainMask,
-                appropriateFor: nil,
-                create: false
-            )
-            let disk = DiskStorage(path: path)
-            self.storage = CodableStorage(storage: disk)
-            
-        } catch {
-            print("Error setting up cache")
-            exit(1)
-        }
+        self.storage = UserStorage().storage
         self.intensity = defaultIVM
     }
     
@@ -70,15 +57,21 @@ class LeifViewModel: ObservableObject {
         }
     }
 
-    @discardableResult
-    func populateIntensity() async -> Optional<IntensityData> {
+    func populateIntensity() async {
         do {
-            let impact = try await IntensityService().getIntensity(url: Constants.Urls.latestImpact)
-            self.intensity = IntensityData.init(intensity: impact.data)
+            let defaults = UserDefaults.standard
+
+            guard let currentRegion = defaults.value(forKey: "Region") as? Int else {
+                let impact = try await IntensityService().getNationwideIntensity()
+                self.intensity = IntensityData(intensity: impact.data)
+                return
+            }
+            
+            let impact = try await IntensityService().getRegionalIntensity(regionID: currentRegion)
+            self.intensity = IntensityData(intensity: impact.data)
         } catch {
             print("populateImpact error", error)
         }
-        return nil
     }
     
     func calculateImpact() -> Float {

@@ -119,3 +119,24 @@ class CodableStorage {
         try storage.save(value: data, for: key)
     }
 }
+
+class UserStorage {
+    @Published var storage: CodableStorage
+
+    init() {
+        do {
+            let path = try FileManager.default.url(
+                for: .cachesDirectory,
+                in: .userDomainMask,
+                appropriateFor: nil,
+                create: false
+            )
+            let disk = DiskStorage(path: path)
+            self.storage = CodableStorage(storage: disk)
+            
+        } catch {
+            print("Error setting up cache")
+            exit(1)
+        }
+    }
+}

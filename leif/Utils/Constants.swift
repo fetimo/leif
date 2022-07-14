@@ -9,7 +9,8 @@ import Foundation
 
 struct Constants {
     struct Urls {
-        static let latestImpact = URL(string: "https://api.carbonintensity.org.uk/intensity")!
+        static let carbonIntensityNationwide = URL(string: "https://api.carbonintensity.org.uk/intensity")!
+        static let carbonIntensityRegional = URL(string: "https://api.carbonintensity.org.uk/regional/regionid")!
     }
 }
 
