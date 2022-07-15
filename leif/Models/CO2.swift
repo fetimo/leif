@@ -21,7 +21,6 @@ struct CO2Data: Codable {
 
 struct CarbonIntensity: Codable {
     let data: CO2Data
-    var fetched_at: TimeInterval
 }
 
 struct CO2ResponseIntensity: Codable {

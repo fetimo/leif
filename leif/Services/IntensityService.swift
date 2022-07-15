@@ -12,6 +12,8 @@ enum NetworkError: Error {
     case invalidResponse
 }
 
+let dateFormatter = ISO8601DateFormatter()
+
 class IntensityService {
     var storage: CodableStorage
     let cacheExpiry: Double = 1800
@@ -26,8 +28,8 @@ class IntensityService {
         // Try and get from cache or make http call
         do {
             let cached: CarbonIntensity = try storage.fetch(for: "api:national")
-            let diff = Date.now.timeIntervalSince1970 - cached.fetched_at
-            guard diff < cacheExpiry else {
+            let expiryDate = dateFormatter.date(from: cached.data.to)!
+            guard Date.now > expiryDate else {
                 throw NetworkError.expired
             }
             
@@ -54,7 +56,7 @@ class IntensityService {
                                      index: item.intensity?.index ?? "unknown"
                                     )
             )
-            let normalised = CarbonIntensity(data: normalisedCO2Data, fetched_at: Date.now.timeIntervalSince1970)
+            let normalised = CarbonIntensity(data: normalisedCO2Data)
             try storage.save(normalised, for: "api:national")
             
             return normalised
@@ -67,9 +69,9 @@ class IntensityService {
         
         // Try and get from cache or make http call
         do {
-            let cached: CarbonIntensity = try storage.fetch(for: "api:region:\(regionID)")
-            let diff = Date.now.timeIntervalSince1970 - cached.fetched_at
-            guard diff < cacheExpiry else {
+            let cached: CarbonIntensity = try storage.fetch(for: "api:national")
+            let expiryDate = dateFormatter.date(from: cached.data.to)!
+            guard Date.now > expiryDate else {
                 throw NetworkError.expired
             }
             
@@ -100,7 +102,7 @@ class IntensityService {
                                      index: item.intensity?.index ?? "unknown"
                                     )
             )
-            let normalised = CarbonIntensity(data: normalisedCO2Data, fetched_at: Date.now.timeIntervalSince1970)
+            let normalised = CarbonIntensity(data: normalisedCO2Data)
             try storage.save(normalised, for: "api:region:\(regionID)")
 
             return normalised
