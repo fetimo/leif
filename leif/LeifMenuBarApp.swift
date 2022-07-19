@@ -36,8 +36,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         setupMenus()
     }
     
-    
-
     func setupMenus() {
         let menu = NSMenu()
         menu.autoenablesItems = false
@@ -50,9 +48,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         total.isEnabled = false
         menu.addItem(total)
         
-        let intensity = NSMenuItem(title: "Current intensity: unknown appdelegate", action: #selector(noop) , keyEquivalent: "")
+        let intensity = NSMenuItem(title: "Current intensity: unknown", action: #selector(noop) , keyEquivalent: "")
         intensity.isEnabled = false
         menu.addItem(intensity)
+        
+        let intel = NSMenuItem(title: "Intel: unknown", action: #selector(noop) , keyEquivalent: "")
+        intel.isEnabled = false
+        menu.addItem(intel)
         
         // Setup Regions submenu
         let regionMenuItem = NSMenuItem()
@@ -116,6 +118,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
             button.image = NSImage(systemSymbolName: "leaf.fill", accessibilityDescription: "charge")
         }
     }
+    
+    func updateForecast(forecast: String) {
+        statusItem.menu?.items[3].title = forecast
+    }
 
     @objc func noop() {}
     
@@ -135,13 +141,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         task.arguments = [path]
         task.launch()
         exit(0)
-        
-//        setupMenus()
-//        DispatchQueue.main.async(execute: {
-//            lert mainWindow = NSApplication.shared.mainMenu
-//            mainWindow.con
-//            print(mainWindow)
-//        })
     }
     
     @objc func didTapReset() {

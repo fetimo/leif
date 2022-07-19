@@ -51,13 +51,20 @@ struct ContentView: View {
         battery.close()
     }
     
+    func updateForecast() {
+        appDelegate.updateForecast(forecast: vm.generateForecast())
+    }
+    
     var body: some View {
         ScrollView {}.onReceive(vm.timer) { time in
             updateWatts()
+            updateForecast()
         }.onAppear() {
             Task {
                 await vm.populateIntensity()
+                await vm.populateForecast()
                 updateWatts()
+                updateForecast()
             }
         }.frame(width: .zero)
     }

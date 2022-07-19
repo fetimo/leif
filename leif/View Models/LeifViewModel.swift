@@ -14,11 +14,14 @@ let defaultCO2Data = CO2Data(
     intensity: defaultIntensity
 )
 let defaultIVM = IntensityData(intensity: defaultCO2Data)
+let defaultForecastData = [defaultCO2Data]
 
 @MainActor
 class LeifViewModel: ObservableObject {
 
     @Published var intensity: IntensityData
+    @Published var forecast: [CO2Data]
+    
     /// Run timer every 2 minutes.
     @Published var timer = Timer.publish(every: 120, tolerance: 10, on: .main, in: .common).autoconnect()
     var storage: CodableStorage
@@ -26,6 +29,7 @@ class LeifViewModel: ObservableObject {
     init() {
         self.storage = UserStorage().storage
         self.intensity = defaultIVM
+        self.forecast = defaultForecastData
     }
     
     private func timeChargingInHours() throws -> Float {
@@ -71,6 +75,21 @@ class LeifViewModel: ObservableObject {
             self.intensity = IntensityData(intensity: impact.data)
         } catch {
             print("populateImpact error", error)
+        }
+    }
+    
+    func populateForecast() async {
+        do {
+            let defaults = UserDefaults.standard
+            
+            guard let currentRegion = defaults.value(forKey: "Region") as? Int else {
+                return
+            }
+            
+            let forecast = try await IntensityService().getRegionalForecast(regionID: currentRegion)
+            self.forecast = forecast.data
+        } catch {
+            print("populateForecast error", error)
         }
     }
     
@@ -121,5 +140,39 @@ class LeifViewModel: ObservableObject {
         newPayload.total_overall = payload.total_overall + (newPayload.total_session - payload.total_session)
         newPayload.measurements.append(data)
         return newPayload
+    }
+    
+    func generateForecast() -> String {
+        let data = self.forecast
+        
+        let dict = [
+            "very high": 5,
+            "high": 4,
+            "medium": 3,
+            "low": 2,
+            "very low": 1
+        ]
+        
+        let forecast = data.map { dict[$0.intensity.index] ?? 100 }
+        
+        let now = forecast[0]
+        let next = forecast[1]
+        let later = forecast[2]
+        
+        // Now is less than anytime in near future
+        if now <= next && now < later {
+            return "Charge now if needed"
+        }
+        
+        // Now is worse than next 30 minutes
+        if now > next {
+            return "Charge in 30 minutes time"
+        }
+        
+        if now > later {
+            return "Charge in an hour or so"
+        }
+
+        return "Charge when needed"
     }
 }

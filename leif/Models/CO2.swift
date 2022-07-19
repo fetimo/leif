@@ -23,6 +23,10 @@ struct CarbonIntensity: Codable {
     let data: CO2Data
 }
 
+struct CarbonForecast: Codable {
+    let data: [CO2Data]
+}
+
 struct CO2ResponseIntensity: Codable {
     let forecast: Int?
     var actual: Int?
@@ -48,4 +52,8 @@ struct CO2RegionalResponseData: Codable {
 
 struct CO2RegionalResponse: Codable {
     let data: [CO2RegionalResponseData]
+}
+
+struct CO2RegionalForecastResponse: Codable {
+    let data: CO2RegionalResponseData
 }

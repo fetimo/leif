@@ -7,12 +7,16 @@
 
 import Foundation
 
+let base = "https://api.carbonintensity.org.uk"
+
 struct Constants {
     struct Urls {
-        static let carbonIntensityNationwide = URL(string: "https://api.carbonintensity.org.uk/intensity")!
-        static let carbonIntensityRegional = URL(string: "https://api.carbonintensity.org.uk/regional/regionid")!
+        static let carbonIntensityNationwide = URL(string: "\(base)/intensity")!
+        static let carbonIntensityRegional = URL(string: "\(base)/regional/regionid")!
+        static let carbonIntensityRegionalForecast = URL(string: "\(base)/regional/intensity")!
     }
 }
+
 
 let regions = [
     1: "North Scotland",
