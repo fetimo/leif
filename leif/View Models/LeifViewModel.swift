@@ -83,6 +83,8 @@ class LeifViewModel: ObservableObject {
             let defaults = UserDefaults.standard
             
             guard let currentRegion = defaults.value(forKey: "Region") as? Int else {
+                let forecast = try await IntensityService().getNationalForecast()
+                self.forecast = forecast.data
                 return
             }
             
@@ -148,12 +150,16 @@ class LeifViewModel: ObservableObject {
         let dict = [
             "very high": 5,
             "high": 4,
-            "medium": 3,
+            "moderate": 3,
             "low": 2,
             "very low": 1
         ]
         
         let forecast = data.map { dict[$0.intensity.index] ?? 100 }
+        
+        if forecast.count != 3 {
+            return "Charge when needed"
+        }
         
         let now = forecast[0]
         let next = forecast[1]

@@ -11,17 +11,19 @@ struct ContentView: View {
     
     @EnvironmentObject var appDelegate: AppDelegate
     @StateObject private var vm: LeifViewModel
-    @State private var currentWatts: Float = 0
     
     init(vm: LeifViewModel) {
         self._vm = StateObject(wrappedValue: vm)
     }
     
-    func updateWatts() {
+    func updateWatts() async {
         var battery = Battery()
         battery.open()
         let isCharging = battery.isACPowered()
-        
+
+        await vm.populateForecast()
+        await vm.populateIntensity()
+    
         /// If charging we want to start or continue to collect watt usage.
         if isCharging {
             var payload = vm.createOrFetchPreviousWatts()
@@ -29,42 +31,33 @@ struct ContentView: View {
             payload = vm.addNewMeasurement(payload: payload, watts: watts)
             try? vm.storage.save(payload, for: "watts")
             
-            Task {
-                /// Update the menu bar
-                appDelegate.updateCurrentImpact(
-                    session: payload.total_session,
-                    overall: payload.total_overall,
-                    intensity: vm.intensity.data.index
-                )
-                await vm.populateIntensity()
-            }
+            /// Update the menu bar
+            appDelegate.updateCurrentImpact(
+                session: payload.total_session,
+                overall: payload.total_overall,
+                intensity: vm.intensity.data.index,
+                forecast: vm.generateForecast()
+            )
         } else {
-            Task {
-                let payload = vm.removePreviousWatts()
-                appDelegate.updateCurrentImpact(
-                    session: payload.total_session,
-                    overall: payload.total_overall,
-                    intensity: vm.intensity.data.index
-                )
-            }
+            let payload = vm.removePreviousWatts()
+            appDelegate.updateCurrentImpact(
+                session: payload.total_session,
+                overall: payload.total_overall,
+                intensity: vm.intensity.data.index,
+                forecast: vm.generateForecast()
+            )
         }
         battery.close()
     }
     
-    func updateForecast() {
-        appDelegate.updateForecast(forecast: vm.generateForecast())
-    }
-    
     var body: some View {
         ScrollView {}.onReceive(vm.timer) { time in
-            updateWatts()
-            updateForecast()
+            Task {
+                await updateWatts()
+            }
         }.onAppear() {
             Task {
-                await vm.populateIntensity()
-                await vm.populateForecast()
-                updateWatts()
-                updateForecast()
+                await updateWatts()
             }
         }.frame(width: .zero)
     }

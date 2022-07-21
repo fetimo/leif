@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import AppKit
 import Foundation
 
 @main
@@ -107,20 +106,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         }
     }
     
-    func updateCurrentImpact(session: Float, overall: Float, intensity: String) {
+    func updateCurrentImpact(session: Float, overall: Float, intensity: String, forecast: String) {
         statusItem.menu?.items[0].title = "Session: \(String(format:"%.2f", session)) \(unit)"
         statusItem.menu?.items[1].title = "Lifetime: \(String(format:"%.2f", overall)) \(unit)"
         statusItem.menu?.items[2].title = "Current intensity: \(intensity)"
+        statusItem.menu?.items[3].title = forecast
         
         if intensity == "high" || intensity == "very high", let button = statusItem.button {
             button.image = NSImage(systemSymbolName: "leaf", accessibilityDescription: "do not charge")
         } else if let button = statusItem.button {
             button.image = NSImage(systemSymbolName: "leaf.fill", accessibilityDescription: "charge")
         }
-    }
-    
-    func updateForecast(forecast: String) {
-        statusItem.menu?.items[3].title = forecast
     }
 
     @objc func noop() {}
@@ -146,5 +142,4 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     @objc func didTapReset() {
         resetStats()
     }
-    
 }

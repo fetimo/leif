@@ -4,6 +4,8 @@ leif is an open-source macOS menu bar app to track your computer's CO2 equivalen
 
 It does this by counting the average power consumption while your MacBook is charging. Data is saved locally and can be reset at any time.
 
+It can also use this data to tell you when to charge in the near future to minimise your carbon impact.
+
 CO2 data is provided by the National Grid via https://carbonintensity.org.uk.
 
 I tried to use permacomputing principles while developing this by:
@@ -14,12 +16,10 @@ I tried to use permacomputing principles while developing this by:
 
 ## Requirements and limitations
 
-* UK only
+* UK only (excluding Northern Ireland)
 * macOS 12+
-* only tested on a MacBook Pro
-* currently no binary exists, you'll have to build from source
+* only tested on MacBook Pros
 
 ## Work remaining
 
 I need to refactor the code to work with older macOS versions (and see how feasible it is).
-I want to add a forecasting feature or warning system if you're charging at a high impact time
