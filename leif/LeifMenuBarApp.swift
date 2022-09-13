@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Foundation
+import Cocoa
 
 @main
 struct LeifMenuBarApp: App {
@@ -28,10 +29,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        if let button = statusItem.button {
-            button.image = NSImage(systemSymbolName: "leaf.fill", accessibilityDescription: "leaf")
-        }
-
         setupMenus()
     }
     
@@ -106,16 +103,34 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         }
     }
     
+    private func getConfigFromIntensity(intensity: String) -> NSImage.SymbolConfiguration {
+        switch (intensity) {
+            case "very low":
+                return NSImage.SymbolConfiguration(pointSize: 22, weight: .ultraLight, scale: .small)
+            case "low":
+                return NSImage.SymbolConfiguration(pointSize: 22, weight: .thin, scale: .small)
+            case "moderate":
+                return NSImage.SymbolConfiguration(pointSize: 22, weight: .light, scale: .small)
+            case "high":
+                return NSImage.SymbolConfiguration(pointSize: 22, weight: .regular, scale: .small)
+            case "very high":
+                return NSImage.SymbolConfiguration(pointSize: 22, weight: .medium, scale: .small)
+            default:
+                return NSImage.SymbolConfiguration(pointSize: 22, weight: .light, scale: .small)
+        }
+    }
+    
     func updateCurrentImpact(session: Float, overall: Float, intensity: String, forecast: String) {
         statusItem.menu?.items[0].title = "Session: \(String(format:"%.2f", session)) \(unit)"
         statusItem.menu?.items[1].title = "Lifetime: \(String(format:"%.2f", overall)) \(unit)"
         statusItem.menu?.items[2].title = "Current intensity: \(intensity)"
         statusItem.menu?.items[3].title = forecast
-        
-        if intensity == "high" || intensity == "very high", let button = statusItem.button {
-            button.image = NSImage(systemSymbolName: "leaf", accessibilityDescription: "do not charge")
-        } else if let button = statusItem.button {
-            button.image = NSImage(systemSymbolName: "leaf.fill", accessibilityDescription: "charge")
+
+        if let button = statusItem.button {
+            var image = NSImage(named: "leif.moods")
+            let config = getConfigFromIntensity(intensity: intensity)
+            image = image?.withSymbolConfiguration(config)
+            button.image = image
         }
     }
 

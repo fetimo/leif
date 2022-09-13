@@ -37,6 +37,7 @@
 		65B31D652874BFF800EF61B9 /* leif.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = leif.entitlements; sourceTree = "<group>"; };
 		65B31D6B2874C10700EF61B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		65C8D0FE2878EA6B00E8A81B /* Totals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Totals.swift; sourceTree = "<group>"; };
+		65D8B2B028D0DA2400F4B22F /* PRIVACY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PRIVACY.md; sourceTree = "<group>"; };
 		65F11E8128775EBD00E5C196 /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,6 +91,7 @@
 		65B31D502874BFF600EF61B9 = {
 			isa = PBXGroup;
 			children = (
+				65D8B2B028D0DA2400F4B22F /* PRIVACY.md */,
 				65ACC66E287A203400598062 /* README.md */,
 				65B31D5B2874BFF600EF61B9 /* leif */,
 				65B31D5A2874BFF600EF61B9 /* Products */,
@@ -265,7 +267,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -323,7 +325,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = Leif;

@@ -187,9 +187,13 @@ public struct Battery {
         let prop = IORegistryEntryCreateCFProperty(service,
                                                    Key.BatteryData.rawValue as CFString?,
                                                    kCFAllocatorDefault, 0)
-        let dict = prop!.takeUnretainedValue() as! NSDictionary
+        let dict = prop!.takeUnretainedValue() as? NSDictionary
+        
+        if dict == nil {
+            return 0.0
+        }
 
-        let uint = dict["AdapterPower"] as! UInt
+        let uint = dict!["AdapterPower"] as! UInt
         let string = String(uint, radix: 16, uppercase: false)
         let watts = UInt32(string, radix: 16)
 
