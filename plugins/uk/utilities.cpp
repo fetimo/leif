@@ -143,7 +143,7 @@ CarbonData Utilities::fromApiError(const QVariantHash &errorHash)
  * forecast, from and to values and return the correct \c CarbonData object.
  *
  * \remark
- * If one of the dates (from, to) is not present we use take the current date
+ * If one of the dates (from, to) is not present we use the current date
  * and time.
  *
  * \sa flatJsonHash()
