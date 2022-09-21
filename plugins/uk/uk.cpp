@@ -26,10 +26,6 @@ class UkPrivate
 private:
     UkPrivate();
     ~UkPrivate();
-    static CarbonData fromByteArray(const QByteArray &data);
-    static CarbonData fromApiError(const QVariantHash &errorHash);
-    static CarbonData fromApiResponse(const QVariantHash &replyHash);
-    static QVariantHash flatJsonHash(const QJsonObject &object);
 
     QHash<QString, int> regionHash;
     QNetworkAccessManager *network;
@@ -45,112 +41,6 @@ UkPrivate::~UkPrivate()
 {
     delete network;
     network = nullptr;
-}
-
-/* static */
-CarbonData UkPrivate::fromByteArray(const QByteArray &data)
-{
-    if(data.isEmpty())
-    {
-        return CarbonData::error("Empty reply received.");
-    }
-
-    QJsonParseError parseError;
-
-    QJsonDocument json = QJsonDocument::fromJson(data, &parseError);
-    if(json.isNull())
-    {
-        QString errMsg("The supplied data(%1) seems not to be a valid JSON text. Error: %2(#%3) at %4.");
-        errMsg = errMsg.arg(data, parseError.errorString()).arg(parseError.error).arg(parseError.offset);
-
-        return CarbonData::error(errMsg);
-    }
-
-    if(json.isEmpty() || !json.isObject())
-    {
-        return CarbonData::error("Empty or invalid JSON received by API.");
-    }
-
-    QJsonObject reply = json.object();
-    QVariantHash hash = UkPrivate::flatJsonHash(reply);
-
-    // There is a chance that we have received an error response. In that case
-    // there will be only one key named "error" containing a code and a message.
-    if(reply.contains(QStringLiteral("error")))
-    {
-        return UkPrivate::fromApiError(hash);
-    }
-
-    // Now we can assume we have the actual data
-    return UkPrivate::fromApiResponse(hash);
-}
-
-/* static */
-CarbonData UkPrivate::fromApiError(const QVariantHash &errorHash)
-{
-    if(errorHash.isEmpty())
-    {
-        return CarbonData::error("An unspecified API error was received.");
-    }
-
-    QString errorCode = errorHash.value(QStringLiteral("code"), QStringLiteral("unknown")).toString();
-    QString message = errorHash.value(QStringLiteral("message"), QStringLiteral("none")).toString();
-
-    QString errMsg("The API returned an error: %1(%2).");
-    errMsg = errMsg.arg(message, errorCode);
-
-    return CarbonData::error(errMsg);
-}
-
-/* static */
-CarbonData UkPrivate::fromApiResponse(const QVariantHash &replyHash)
-{
-    if(replyHash.isEmpty())
-    {
-        return CarbonData::error("Response data seems corrupt.");
-    }
-
-    QString fromStr = replyHash.value(QStringLiteral("from")).toString();
-    QString toStr = replyHash.value(QStringLiteral("to")).toString();
-    int forecast = replyHash.value(QStringLiteral("forecast"), 0).toInt();
-
-    const QString dateTimeFormat = QStringLiteral("yyyy-MM-ddThh:mmZ");
-    QDateTime from = fromStr.isEmpty() ? QDateTime::currentDateTime() : QDateTime::fromString(fromStr, dateTimeFormat);
-    QDateTime to   = toStr.isEmpty() ? QDateTime::currentDateTime() : QDateTime::fromString(toStr, dateTimeFormat);
-
-    return CarbonData::ok(forecast, from, to);
-}
-
-/* static */
-QVariantHash UkPrivate::flatJsonHash(const QJsonObject &object)
-{
-    QList<QVariantMap> check;
-    check << object.toVariantMap();
-
-    QVariantHash flatHash;
-
-    for(int i = 0; i < check.count(); i++)
-    {
-        QVariantMap checkMap = check.at(i);
-
-        const QStringList keys = checkMap.keys();
-
-        for(const QString &key : keys)
-        {
-            QVariant value = checkMap.value(key);
-
-            if(value.type() == QVariant::Type::Map)
-            {
-                check << value.toMap();
-            }
-            else
-            {
-                flatHash.insert(key, value);
-            }
-        }
-    }
-
-    return flatHash;
 }
 
 /**
@@ -214,30 +104,7 @@ CarbonData Uk::carbonPerKiloWatt(const QLocale::Country country, const QString &
                                          "region: '%1'. It is unknown.").arg(region));
     }
 
-    QUrl url = QString("https://api.carbonintensity.org.uk/regional/regionid/%1").arg(regionCode(region));
-    QNetworkReply *reply = d->network->get(QNetworkRequest(url));
-
-    Utilities::await(reply, &QNetworkReply::finished);
-
-    if(reply->error() != QNetworkReply::NoError)
-    {
-        QString msg("Network request could not be processed. Error: %1.");
-        msg = msg.arg(reply->error());
-        qDebug(qPrintable(msg));
-
-        reply->deleteLater();
-        reply = nullptr;
-
-        return CarbonData::error(msg);
-    }
-
-    QByteArray data = reply->readAll();
-
-    reply->close();
-    reply->deleteLater();
-    reply = nullptr;
-
-    return UkPrivate::fromByteArray(data);
+    return Utilities::requestCarbonData(d->network, regionCode(region));
 }
 
 /**
