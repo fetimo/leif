@@ -11,16 +11,15 @@
 #include <QNetworkReply>
 #include <QNetworkProxyFactory>
 #include <QHash>
-#include <QThread>
 #include <QJsonDocument>
 #include <QJsonArray>
-#include <QCoreApplication>
 
 #ifdef _DEBUG
 #include <QtDebug>
 #endif
 
 #include "uk.h"
+#include "utilities.h"
 
 class UkPrivate
 {
@@ -218,11 +217,7 @@ CarbonData Uk::carbonPerKiloWatt(const QLocale::Country country, const QString &
     QUrl url = QString("https://api.carbonintensity.org.uk/regional/regionid/%1").arg(regionCode(region));
     QNetworkReply *reply = d->network->get(QNetworkRequest(url));
 
-    while(!reply->isFinished())
-    {
-        QThread::msleep(500);
-        qApp->processEvents();
-    }
+    Utilities::await(reply, &QNetworkReply::finished);
 
     if(reply->error() != QNetworkReply::NoError)
     {
