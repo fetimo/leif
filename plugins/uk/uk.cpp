@@ -16,6 +16,10 @@
 #include <QJsonArray>
 #include <QCoreApplication>
 
+#ifdef _DEBUG
+#include <QtDebug>
+#endif
+
 #include "uk.h"
 
 class UkPrivate
@@ -24,8 +28,9 @@ private:
     UkPrivate();
     ~UkPrivate();
     static CarbonData fromByteArray(const QByteArray &data);
-    static CarbonData fromApiError(const QJsonValue &errorValue);
-    static CarbonData fromApiResponse(const QJsonObject &responseValue);
+    static CarbonData fromApiError(const QVariantHash &errorHash);
+    static CarbonData fromApiResponse(const QVariantHash &replyHash);
+    static QVariantHash flatJsonHash(const QJsonObject &object);
 
     QHash<QString, int> regionHash;
     QNetworkAccessManager *network;
@@ -67,40 +72,30 @@ CarbonData UkPrivate::fromByteArray(const QByteArray &data)
         return CarbonData::error("Empty or invalid JSON received by API.");
     }
 
+    QJsonObject reply = json.object();
+    QVariantHash hash = UkPrivate::flatJsonHash(reply);
+
     // There is a chance that we have received an error response. In that case
     // there will be only one key named "error" containing a code and a message.
-    QJsonObject reply = json.object();
     if(reply.contains(QStringLiteral("error")))
     {
-        return UkPrivate::fromApiError(reply.value(QStringLiteral("error")));
+        return UkPrivate::fromApiError(hash);
     }
 
     // Now we can assume we have the actual data
-    return UkPrivate::fromApiResponse(json.object());
+    return UkPrivate::fromApiResponse(hash);
 }
 
 /* static */
-CarbonData UkPrivate::fromApiError(const QJsonValue &errorValue)
+CarbonData UkPrivate::fromApiError(const QVariantHash &errorHash)
 {
-    if(errorValue.isNull() || errorValue.isUndefined() || !errorValue.isObject())
+    if(errorHash.isEmpty())
     {
         return CarbonData::error("An unspecified API error was received.");
     }
 
-    QJsonObject error = errorValue.toObject();
-
-    QString errorCode;
-    QString message;
-
-    if(error.contains(QStringLiteral("code")))
-    {
-        errorCode = error.value(QStringLiteral("code")).toString();
-    }
-
-    if(error.contains(QStringLiteral("message")))
-    {
-        message = error.value(QStringLiteral("message")).toString();
-    }
+    QString errorCode = errorHash.value(QStringLiteral("code"), QStringLiteral("unknown")).toString();
+    QString message = errorHash.value(QStringLiteral("message"), QStringLiteral("none")).toString();
 
     QString errMsg("The API returned an error: %1(%2).");
     errMsg = errMsg.arg(message, errorCode);
@@ -109,76 +104,54 @@ CarbonData UkPrivate::fromApiError(const QJsonValue &errorValue)
 }
 
 /* static */
-CarbonData UkPrivate::fromApiResponse(const QJsonObject &response)
+CarbonData UkPrivate::fromApiResponse(const QVariantHash &replyHash)
 {
-    if(response.isEmpty())
+    if(replyHash.isEmpty())
     {
         return CarbonData::error("Response data seems corrupt.");
     }
 
-    if(!response.contains(QStringLiteral("data")))
-    {
-        return CarbonData::error("Could not find the data value in API response.");
-    }
+    QString fromStr = replyHash.value(QStringLiteral("from")).toString();
+    QString toStr = replyHash.value(QStringLiteral("to")).toString();
+    int forecast = replyHash.value(QStringLiteral("forecast"), 0).toInt();
 
-    QJsonValue dataValue = response.value(QStringLiteral("data"));
-    QJsonObject data;
-
-    if(dataValue.isArray())
-    {
-        data = dataValue.toArray().at(0).toObject();
-    }
-    else
-    {
-        data = dataValue.toObject();
-    }
-
-    if(data.isEmpty())
-    {
-        return CarbonData::error("The data section seems empty.");
-    }
-
-    if(!data.contains(QStringLiteral("data")))
-    {
-        return CarbonData::error("The data sectios lacks the carbon data section.");
-    }
-
-    // I know, but that's how the JSON looks like ;)
-    dataValue = data.value(QStringLiteral("data"));
-    if(dataValue.isArray())
-    {
-        data = dataValue.toArray().at(0).toObject();
-    }
-    else
-    {
-        data = dataValue.toObject();
-    }
-
-    if(data.isEmpty())
-    {
-        return CarbonData::error("The carbon data section seems empty.");
-    }
-
-    QString fromStr = data.value(QStringLiteral("from")).toString();
-    QString toStr = data.value(QStringLiteral("to")).toString();
-
-    if(!data.contains(QStringLiteral("intensity")))
-    {
-        return CarbonData::error("The crbon data section lacks the intensity values.");
-    }
-
-    QJsonObject intensity = data.value(QStringLiteral("intensity")).toObject();
-    if(intensity.isEmpty())
-    {
-        return CarbonData::error("The intensity value is empty.");
-    }
-
-    int forecast = intensity.value(QStringLiteral("forecast")).toInt();
-
-    QDateTime from = fromStr.isEmpty() ? QDateTime::currentDateTime() : QDateTime::fromString(fromStr, QStringLiteral("yyyy-MM-ddThh:mmZ"));
-    QDateTime to   = toStr.isEmpty() ? QDateTime::currentDateTime() : QDateTime::fromString(toStr, QStringLiteral("yyyy-MM-ddThh:mmZ"));
+    const QString dateTimeFormat = QStringLiteral("yyyy-MM-ddThh:mmZ");
+    QDateTime from = fromStr.isEmpty() ? QDateTime::currentDateTime() : QDateTime::fromString(fromStr, dateTimeFormat);
+    QDateTime to   = toStr.isEmpty() ? QDateTime::currentDateTime() : QDateTime::fromString(toStr, dateTimeFormat);
 
     return CarbonData::ok(forecast, from, to);
+}
+
+/* static */
+QVariantHash UkPrivate::flatJsonHash(const QJsonObject &object)
+{
+    QList<QVariantMap> check;
+    check << object.toVariantMap();
+
+    QVariantHash flatHash;
+
+    for(int i = 0; i < check.count(); i++)
+    {
+        QVariantMap checkMap = check.at(i);
+
+        const QStringList keys = checkMap.keys();
+
+        for(const QString &key : keys)
+        {
+            QVariant value = checkMap.value(key);
+
+            if(value.type() == QVariant::Type::Map)
+            {
+                check << value.toMap();
+            }
+            else
+            {
+                flatHash.insert(key, value);
+            }
+        }
+    }
+
+    return flatHash;
 }
 
 /**

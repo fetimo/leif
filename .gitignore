@@ -90,4 +90,9 @@ fastlane/test_output
 # https://github.com/johnno1962/injectionforxcode
 
 iOSInjectionProject/
+.qtc_clangd/
 plugins/uk/uk.pro.user
+plugins/uk/.qmake.stash
+debug/
+Makefile
+Makefile.*
