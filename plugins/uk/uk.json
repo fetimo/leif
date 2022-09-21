@@ -1,0 +1,29 @@
+{
+	"name": "Uk",
+	"description": "United Kingdom Carbon data provider",
+	"territories": [
+		{ 
+			"territory": 224,
+			"description": "United Kingdom",
+		  	"regions": [
+				"North Scotland",
+				"South Scotland",
+				"North West England",
+				"North East England",
+				"Yorkshire",
+				"North Wales",
+				"South Wales",
+				"West Midlands",
+				"East Midlands",
+				"East England",
+				"South West England",
+				"South England",
+				"London",
+				"South East England",
+				"England",
+				"Scotland",
+				"Wales"
+			]
+		}
+	]
+}

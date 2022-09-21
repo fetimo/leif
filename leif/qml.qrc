@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/main.qml</file>
+        <file>img/FairD.png</file>
+        <file>img/HappyD.png</file>
+        <file>img/SadD.png</file>
+        <file>img/VeryHappyD.png</file>
+        <file>img/VerySadD.png</file>
+        <file>img/background.png</file>
+        <file>img/leif_128.png</file>
+    </qresource>
+</RCC>
