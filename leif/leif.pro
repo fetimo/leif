@@ -5,10 +5,14 @@ QT += quick widgets
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        carbonplugindata.cpp \
+        carbonplugin.cpp \
         main.cpp \
         models/trayiconmodel.cpp \
-        trayicon.cpp
+        trayicon.cpp \
+        utils/carbonplugindata.cpp \
+        utils/territory.cpp \
+        utils/translatedstring.cpp \
+        utils/translation.cpp
 
 RESOURCES += qml.qrc
 
@@ -33,9 +37,13 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    carbonplugindata.h \
+    carbonplugin.h \
     include/carbondata.h \
     include/interfaces/IDataProvider.h \
     main.h \
     models/trayiconmodel.h \
-    trayicon.h
+    trayicon.h \
+    utils/carbonplugindata.h \
+    utils/territory.h \
+    utils/translatedstring.h \
+    utils/translation.h
