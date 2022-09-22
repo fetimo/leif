@@ -58,6 +58,7 @@ public:
     static CarbonData fromApiError(const QVariantHash &errorHash);
     static CarbonData fromApiResponse(const QVariantHash &replyHash);
     static QVariantHash flatJsonHash(const QJsonObject &object);
+    static QString dateTimeFormat();
 };
 
 #endif // UTILITIES_H

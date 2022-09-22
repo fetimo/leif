@@ -163,7 +163,7 @@ CarbonData Utilities::fromApiResponse(const QVariantHash &replyHash)
     QString toStr = replyHash.value(QStringLiteral("to")).toString();
     int forecast = replyHash.value(QStringLiteral("forecast"), 0).toInt();
 
-    const QString dateTimeFormat = QStringLiteral("yyyy-MM-ddThh:mmZ");
+    const QString dateTimeFormat = Utilities::dateTimeFormat();
     QDateTime from = fromStr.isEmpty() ? QDateTime::currentDateTime() : QDateTime::fromString(fromStr, dateTimeFormat);
     QDateTime to   = toStr.isEmpty() ? QDateTime::currentDateTime() : QDateTime::fromString(toStr, dateTimeFormat);
 
@@ -210,4 +210,14 @@ QVariantHash Utilities::flatJsonHash(const QJsonObject &object)
     }
 
     return flatHash;
+}
+
+/**
+ * @brief Returns the date time format used by the National Grid API.
+ *
+ * @return The date time format string as a QString object.
+ */
+QString Utilities::dateTimeFormat()
+{
+    return QStringLiteral("yyyy-MM-ddThh:mmZ");
 }

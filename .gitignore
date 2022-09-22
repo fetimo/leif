@@ -94,5 +94,10 @@ iOSInjectionProject/
 plugins/uk/uk.pro.user
 plugins/uk/.qmake.stash
 debug/
+release/
 Makefile
 Makefile.*
+.qmake.stash
+leif.pro.user
+leif/qml_qmlcache.qrc
+tests/plugins/uk/UtilitiesTests/target_wrapper.bat
