@@ -1,0 +1,400 @@
+[
+    {
+        "classes": [
+            {
+                "className": "LeifSettings",
+                "object": true,
+                "qualifiedClassName": "LeifSettings",
+                "signals": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "country",
+                                "type": "QLocale::Country"
+                            },
+                            {
+                                "name": "regionId",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "locationChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "lifeTime",
+                                "type": "int"
+                            }
+                        ],
+                        "name": "lifeTimeCarbonChanged",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "leifsettings.h",
+        "outputRevision": 67
+    },
+    {
+        "classes": [
+            {
+                "classInfos": [
+                    {
+                        "name": "QML.Element",
+                        "value": "auto"
+                    }
+                ],
+                "className": "SettingsModel",
+                "object": true,
+                "properties": [
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "name": "country",
+                        "notify": "countryChanged",
+                        "read": "country",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QLocale::Country",
+                        "user": false,
+                        "write": "setCountry"
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "name": "regionId",
+                        "notify": "regionIdChanged",
+                        "read": "regionId",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false,
+                        "write": "setRegionId"
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "name": "lifetimeCarbon",
+                        "notify": "lifetimeCarbonChanged",
+                        "read": "lifetimeCarbon",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false,
+                        "write": "setLifetimeCarbon"
+                    }
+                ],
+                "qualifiedClassName": "SettingsModel",
+                "signals": [
+                    {
+                        "access": "public",
+                        "name": "countryChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "regionIdChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "lifetimeCarbonChanged",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "settingsmodel.h",
+        "outputRevision": 67
+    },
+    {
+        "classes": [
+            {
+                "className": "CarbonModel",
+                "object": true,
+                "qualifiedClassName": "CarbonModel",
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "carbonmodel.h",
+        "outputRevision": 67
+    },
+    {
+        "classes": [
+            {
+                "className": "TrayIconModel",
+                "enums": [
+                    {
+                        "isClass": false,
+                        "isFlag": false,
+                        "name": "CarbonUsageLevel",
+                        "values": [
+                            "VeryLow",
+                            "Low",
+                            "Medium",
+                            "High",
+                            "VeryHigh"
+                        ]
+                    },
+                    {
+                        "isClass": false,
+                        "isFlag": false,
+                        "name": "ChargeForecast",
+                        "values": [
+                            "ChargeNow",
+                            "ChargeIn30",
+                            "ChargeIn60",
+                            "ChargeWhenNeeded"
+                        ]
+                    }
+                ],
+                "object": true,
+                "properties": [
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "name": "sessionCarbon",
+                        "notify": "sessionCarbonChanged",
+                        "read": "sessionCarbon",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false,
+                        "write": "setSessionCarbon"
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "name": "totalCarbon",
+                        "notify": "totalCarbonChanged",
+                        "read": "totalCarbon",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "name": "carbonUsageLevel",
+                        "notify": "carbonUsageLevelChanged",
+                        "read": "carbonUsageLevel",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "CarbonUsageLevel",
+                        "user": false,
+                        "write": "setCarbonUsageLevel"
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "name": "chargeForecast",
+                        "notify": "chargeForecastChanged",
+                        "read": "chargeForecast",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "ChargeForecast",
+                        "user": false,
+                        "write": "setChargeForecast"
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "name": "configured",
+                        "notify": "configuredChanged",
+                        "read": "configured",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "bool",
+                        "user": false
+                    }
+                ],
+                "qualifiedClassName": "TrayIconModel",
+                "signals": [
+                    {
+                        "access": "public",
+                        "name": "sessionCarbonChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "totalCarbonChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "carbonUsageLevelChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "chargeForecastChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "configuredChanged",
+                        "returnType": "void"
+                    }
+                ],
+                "slots": [
+                    {
+                        "access": "public",
+                        "name": "resetStats",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "showDialog",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "trayiconmodel.h",
+        "outputRevision": 67
+    },
+    {
+        "classes": [
+            {
+                "className": "PowerInfo",
+                "enums": [
+                    {
+                        "isClass": false,
+                        "isFlag": false,
+                        "name": "State",
+                        "values": [
+                            "Unknown",
+                            "NoBattery",
+                            "FullyCharged",
+                            "Charging",
+                            "Discharging"
+                        ]
+                    }
+                ],
+                "object": true,
+                "qualifiedClassName": "PowerInfo",
+                "slots": [
+                    {
+                        "access": "private",
+                        "name": "checkLevels",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    },
+                    {
+                        "access": "public",
+                        "name": "IPower"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "powerinfo.h",
+        "outputRevision": 67
+    },
+    {
+        "classes": [
+            {
+                "className": "TrayIcon",
+                "object": true,
+                "qualifiedClassName": "TrayIcon",
+                "slots": [
+                    {
+                        "access": "private",
+                        "name": "onSessionCarbonChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "private",
+                        "name": "onTotalCarbonChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "private",
+                        "name": "onCarbonUsageLevelChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "private",
+                        "name": "onChargeForecastChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "private",
+                        "name": "onResetStatsClicked",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "private",
+                        "name": "onPreferencesClicked",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "private",
+                        "name": "onConfiguredChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "private",
+                        "name": "doCheckConfigured",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QSystemTrayIcon"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "trayicon.h",
+        "outputRevision": 67
+    }
+]

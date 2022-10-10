@@ -8,5 +8,31 @@
         <file>img/VerySadD.png</file>
         <file>img/background.png</file>
         <file>img/leif_128.png</file>
+        <file>img/cbindicator.png</file>
+        <file>img/check_black.png</file>
+        <file>img/check_white.png</file>
+        <file>img/globe.png</file>
+        <file>img/leif.png</file>
+        <file>img/leif_base.png</file>
+        <file>img/pin.png</file>
+        <file>img/title.png</file>
+        <file>img/flags/de.png</file>
+        <file>img/flags/esp.png</file>
+        <file>img/flags/fr.png</file>
+        <file>img/flags/gbr.png</file>
+        <file>img/flags/irl.png</file>
+        <file>img/flags/ita.png</file>
+        <file>img/flags/undefined.png</file>
+        <file>qml/AboutPage.qml</file>
+        <file>qml/BasePage.qml</file>
+        <file>qml/ButtonRow.qml</file>
+        <file>qml/CenteredText.qml</file>
+        <file>qml/CountryComboBox.qml</file>
+        <file>qml/Leif.qml</file>
+        <file>qml/LeifComboBox.qml</file>
+        <file>qml/LeifText.qml</file>
+        <file>qml/LocationPage.qml</file>
+        <file>qml/NavButton.qml</file>
+        <file>qml/RegionComboBox.qml</file>
     </qresource>
 </RCC>

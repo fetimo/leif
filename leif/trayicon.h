@@ -24,6 +24,7 @@ private Q_SLOTS:
     void onChargeForecastChanged();
     void onResetStatsClicked();
     void onPreferencesClicked();
+    void onConfiguredChanged();
     void doCheckConfigured();
 
 private:
@@ -44,6 +45,7 @@ private:
     struct TrayIconData
     {
         TrayIconModel *model;
+        QAction *notConfiguredAction;
         QAction *sessionCarbonAction;
         QAction *totalCarbonAction;
         QAction *carbonUsageLevelAction;

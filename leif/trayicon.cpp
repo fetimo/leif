@@ -23,6 +23,7 @@ TrayIcon::TrayIcon(const QIcon &icon, QObject *parent /* = nullptr */):
     QSystemTrayIcon(icon, parent)
 {
     d.model = nullptr;
+    d.notConfiguredAction = nullptr;
     d.sessionCarbonAction = nullptr;
     d.totalCarbonAction = nullptr;
     d.carbonUsageLevelAction = nullptr;
@@ -89,6 +90,16 @@ void TrayIcon::onPreferencesClicked()
     d.model->showDialog();
 }
 
+void TrayIcon::onConfiguredChanged()
+{
+    Q_ASSERT(d.model != nullptr);
+
+    if(d.notConfiguredAction != nullptr)
+    {
+        d.notConfiguredAction->setVisible(!d.model->configured());
+    }
+}
+
 void TrayIcon::doCheckConfigured()
 {
     Q_ASSERT(d.model != nullptr);
@@ -104,6 +115,9 @@ void TrayIcon::doCheckConfigured()
 void TrayIcon::setupMenu()
 {
     QMenu *menu = new QMenu;
+
+    d.notConfiguredAction = menu->addAction(tr("Leif is not configured yet"), this, &TrayIcon::onPreferencesClicked);
+    onConfiguredChanged();
 
     d.sessionCarbonAction = menu->addAction(QString());
     d.sessionCarbonAction->setDisabled(true);
@@ -138,6 +152,7 @@ void TrayIcon::connectModel()
     connect(d.model, &TrayIconModel::totalCarbonChanged, this, &TrayIcon::onTotalCarbonChanged);
     connect(d.model, &TrayIconModel::carbonUsageLevelChanged, this, &TrayIcon::onCarbonUsageLevelChanged);
     connect(d.model, &TrayIconModel::chargeForecastChanged, this, &TrayIcon::onChargeForecastChanged);
+    connect(d.model, &TrayIconModel::configuredChanged, this, &TrayIcon::onConfiguredChanged);
 }
 
 QString TrayIcon::co2Unit()

@@ -1,3 +1,14 @@
+/**
+ * @brief Defines the CarbonPluginData class.
+ *
+ * The CarbonPluginData class offers information regarding a carbon plugin that
+ * is stored in the plugin json file.
+ *
+ * @author Dariusz Scharsig
+ * @date 26.09.2022
+ *
+ * @copyright Tim Stone 2022
+ */
 #ifndef CARBONPLUGINDATA_H
 #define CARBONPLUGINDATA_H
 
@@ -23,8 +34,8 @@ public:
     QList<Territory> territoryList() const;
     QList<QLocale::Country> territories() const;
     QStringList territoryNames() const;
-    QList<TranslatedString> regionList(const QLocale::Country country) const;
-    QStringList regionIds(const QLocale::Country country) const;
+    QList<TranslatedString> regionList(const QLocale::Country territory) const;
+    QStringList regionIds(const QLocale::Country territory) const;
     QString translatedRegion(const QLocale::Country country, const QString &regionId) const;
 
     static CarbonPluginData fromJson(const QJsonValue &json);

@@ -26,6 +26,10 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     app.setQuitOnLastWindowClosed(false); // Very important with tray apps.
 
+    QCoreApplication::setOrganizationName(QStringLiteral("leif"));
+    QCoreApplication::setOrganizationDomain(QStringLiteral("leif.support"));
+    QCoreApplication::setApplicationName(QStringLiteral("leif carbon tracker"));
+
 #ifdef _WIN32
     setStyleSheet();
 #endif

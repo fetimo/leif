@@ -1,87 +1,145 @@
 #include "models/trayiconmodel.h"
+#include "models/settingsmodel.h"
+
+class TrayIconModelPrivate
+{
+    TrayIconModelPrivate();
+    ~TrayIconModelPrivate();
+
+    int sessionCarbon;
+    TrayIconModel::CarbonUsageLevel carbonUsageLevel;
+    TrayIconModel::ChargeForecast chargeForecast;
+    QQmlApplicationEngine *qmlEngine;
+    SettingsModel *settingsModel;
+
+    friend class TrayIconModel;
+};
+
+TrayIconModelPrivate::TrayIconModelPrivate():
+    sessionCarbon{0},
+    carbonUsageLevel{TrayIconModel::Medium},
+    chargeForecast{TrayIconModel::ChargeWhenNeeded},
+    qmlEngine{new QQmlApplicationEngine},
+    settingsModel{new SettingsModel}
+{}
+
+TrayIconModelPrivate::~TrayIconModelPrivate()
+{
+    delete qmlEngine;
+    qmlEngine = nullptr;
+
+    delete settingsModel;
+    settingsModel = nullptr;
+}
 
 TrayIconModel::TrayIconModel(QObject *parent /* = nullptr */):
-    QObject(parent)
+    QObject(parent),
+    d{new TrayIconModelPrivate}
 {
-    d.carbonUsageLevel = TrayIconModel::Medium;
-    d.chargeForecast = TrayIconModel::ChargeWhenNeeded;
-    d.sessionCarbon = 0;
-    d.totalCarbon = 0;
-    d.configured = false;
+    connect(d->settingsModel, &SettingsModel::lifetimeCarbonChanged, this, &TrayIconModel::totalCarbonChanged);
+    connect(d->settingsModel, &SettingsModel::countryChanged, this, &TrayIconModel::configuredChanged);
+}
+
+TrayIconModel::~TrayIconModel()
+{
+    delete d;
+    d = nullptr;
 }
 
 int TrayIconModel::sessionCarbon() const
 {
-    return d.sessionCarbon;
+    Q_ASSERT(d != nullptr);
+    return d->sessionCarbon;
 }
 
 void TrayIconModel::setSessionCarbon(int newSessionCarbon)
 {
-    if (d.sessionCarbon == newSessionCarbon)
+    Q_ASSERT(d != nullptr);
+
+    if (d->sessionCarbon == newSessionCarbon)
         return;
-    d.sessionCarbon = newSessionCarbon;
+
+    d->sessionCarbon = newSessionCarbon;
     emit sessionCarbonChanged();
 }
 
 int TrayIconModel::totalCarbon() const
 {
-    return d.totalCarbon;
-}
+    Q_ASSERT(d != nullptr);
 
-void TrayIconModel::setTotalCarbon(int newTotalCarbon)
-{
-    if (d.totalCarbon == newTotalCarbon)
-        return;
-    d.totalCarbon = newTotalCarbon;
-    emit totalCarbonChanged();
+    if(d->settingsModel == nullptr)
+    {
+        return 0;
+    }
+
+    return d->settingsModel->lifetimeCarbon();
 }
 
 TrayIconModel::CarbonUsageLevel TrayIconModel::carbonUsageLevel() const
 {
-    return d.carbonUsageLevel;
+    Q_ASSERT(d != nullptr);
+
+    return d->carbonUsageLevel;
 }
 
 void TrayIconModel::setCarbonUsageLevel(CarbonUsageLevel newCarbonUsageLevel)
 {
-    if (d.carbonUsageLevel == newCarbonUsageLevel)
+    Q_ASSERT(d != nullptr);
+
+    if (d->carbonUsageLevel == newCarbonUsageLevel)
         return;
-    d.carbonUsageLevel = newCarbonUsageLevel;
+    d->carbonUsageLevel = newCarbonUsageLevel;
     emit carbonUsageLevelChanged();
 }
 
 TrayIconModel::ChargeForecast TrayIconModel::chargeForecast() const
 {
-    return d.chargeForecast;
+    Q_ASSERT(d != nullptr);
+
+    return d->chargeForecast;
 }
 
 void TrayIconModel::setChargeForecast(ChargeForecast newChargeForecast)
 {
-    if (d.chargeForecast == newChargeForecast)
+    Q_ASSERT(d != nullptr);
+
+    if (d->chargeForecast == newChargeForecast)
         return;
-    d.chargeForecast = newChargeForecast;
+    d->chargeForecast = newChargeForecast;
     emit chargeForecastChanged();
 }
 
 void TrayIconModel::resetStats()
 {
-    /// TODO
-    qDebug("Reset the stats...");
+    Q_ASSERT(d != nullptr);
+
+    if(d->settingsModel == nullptr)
+    {
+        return;
+    }
+
+    d->settingsModel->setLifetimeCarbon(0);
+    setSessionCarbon(0);
 }
 
 void TrayIconModel::showDialog()
 {
-    d.qmlEngine.load("qml/main.qml");
+    Q_ASSERT(d != nullptr);
+
+    if(d->qmlEngine != nullptr)
+    {
+        d->qmlEngine->load("qml/main.qml");
+    }
 }
 
 bool TrayIconModel::configured() const
 {
-    return d.configured;
-}
+    Q_ASSERT(d != nullptr);
 
-void TrayIconModel::setConfigured(bool newConfigured)
-{
-    if (d.configured == newConfigured)
-        return;
-    d.configured = newConfigured;
-    emit configuredChanged();
+    if(d->settingsModel == nullptr)
+    {
+        return false;
+    }
+
+    return d->settingsModel->country() != QLocale::AnyCountry;
 }

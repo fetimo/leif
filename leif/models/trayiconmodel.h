@@ -14,14 +14,16 @@
 #include <QObject>
 #include <QQmlApplicationEngine>
 
+class TrayIconModelPrivate;
+
 class TrayIconModel : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(int sessionCarbon READ sessionCarbon WRITE setSessionCarbon NOTIFY sessionCarbonChanged)
-    Q_PROPERTY(int totalCarbon READ totalCarbon WRITE setTotalCarbon NOTIFY totalCarbonChanged)
+    Q_PROPERTY(int totalCarbon READ totalCarbon NOTIFY totalCarbonChanged)
     Q_PROPERTY(CarbonUsageLevel carbonUsageLevel READ carbonUsageLevel WRITE setCarbonUsageLevel NOTIFY carbonUsageLevelChanged)
     Q_PROPERTY(ChargeForecast chargeForecast READ chargeForecast WRITE setChargeForecast NOTIFY chargeForecastChanged)
-    Q_PROPERTY(bool configured READ configured WRITE setConfigured NOTIFY configuredChanged)
+    Q_PROPERTY(bool configured READ configured NOTIFY configuredChanged)
 
 public:
     enum CarbonUsageLevel { VeryLow, Low, Medium, High, VeryHigh };
@@ -31,13 +33,12 @@ public:
     Q_ENUM(ChargeForecast)
 
     explicit TrayIconModel(QObject *parent = nullptr);
-    virtual ~TrayIconModel() = default;
+    virtual ~TrayIconModel();
 
     int sessionCarbon() const;
     void setSessionCarbon(int newSessionCarbon);
 
     int totalCarbon() const;
-    void setTotalCarbon(int newTotalCarbon);
 
     CarbonUsageLevel carbonUsageLevel() const;
     void setCarbonUsageLevel(CarbonUsageLevel newCarbonUsageLevel);
@@ -46,7 +47,6 @@ public:
     void setChargeForecast(ChargeForecast newChargeForecast);
 
     bool configured() const;
-    void setConfigured(bool newConfigured);
 
 public Q_SLOTS:
     void resetStats();
@@ -60,15 +60,7 @@ signals:
     void configuredChanged();
 
 private:
-    struct TrayIconModelData
-    {
-        int sessionCarbon;
-        int totalCarbon;
-        CarbonUsageLevel carbonUsageLevel;
-        ChargeForecast chargeForecast;
-        bool configured;
-        QQmlApplicationEngine qmlEngine;
-    } d;
+    TrayIconModelPrivate *d;
 };
 
 #endif // TRAYICONMODEL_H
